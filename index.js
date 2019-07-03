@@ -21,11 +21,73 @@ mongoose.connect("mongodb://localhost:27017/UserDB", {
 
 app.use(express.json);
 
-// app.delete('/deleteUser', async (req, res) => {
-//     console.log(req.body);
-//     try{
-//         return res.status(201).send(delete);
-//     }catch{
-//         return res.status(501).send(err);
+let mySchema = new mongoose.Schema({ name : "string" });
+let myModel = mongoose.model('Users', mySchema);
+
+myModel.findByIdAndRemove(req.params.myModel, (err, myModel) => {
+    if(err) {
+        return res.status(500).send(err);
+    }
+
+    const response = {
+        message: "Done the do",
+        id: myModel.id
+    }
+
+    return res.status(200).send(response);
+});
+
+
+//---------------------------------------------------------------------
+
+var user = "Bobby"
+
+// myModel.create ({ name : user }, function (err) {
+//     if (err){
+//         return handlerError(err);
 //     }
+// });
+
+// myModel.deleteOne({ name : user }, function (err) {
+//     if(err){
+//         return handlerError(err);
+//     }
+// });
+
+//---------------------------------------------------------------------
+
+// const router = express.Router();
+
+// router.delete('/userDelete', mySchema.myModel);
+
+// app.delete = function (req,res) {
+//     myModel.findByIdAndDelete(req.params.id, function (err) {
+//         if(err){
+//             return next(err);
+//         }
+//         res.send("Deleted Well");
+//     });
+// }
+
+//---------------------------------------------------------------------
+
+// app.delete('/deleteUser', async (req, res) => {
+//     // console.log(req.body);
+//     try{
+//         const currentUser = mySchema.myModel(req.body);
+//         // const currentUser = "bazz";
+//         const userDoc = await currentUser.delete();
+//         return res.status(201).send(userDoc);
+//     }catch (ex){
+//         console.log(ex);
+//         return res.status(501).send(ex);
+//     }
+// });
+
+// app.post('/createUser', async => {
+//     myModel.create ({ name : user }, function (err) {
+//         if (err){
+//             return handlerError(err);
+//         }
+//     });
 // });
